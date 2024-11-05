@@ -15,4 +15,4 @@ $registryPath = 'HKCU:\Control Panel\Desktop'
 Set-ItemProperty -Path $registryPath -Name Wallpaper -Value $localWallpaperPath
 Set-ItemProperty -Path $registryPath -Name WallpaperStyle -Value "2" # 2 para esticado; "0" para centralizado, "6" para ajustar, "10" para preencher
 
-RUNDLL32.EXE user32.dll, UpdatePerUserSystemParameters
+RUNDLL32.EXE user32.dll, UpdatePerUserSystemParameters, 1, True
