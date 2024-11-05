@@ -1,4 +1,4 @@
-$sharepointUrl = 'https://raw.githubusercontent.com/tibia-sv/accerte_wallpaper/refs/heads/main/Wallpaper.jpg'
+$sharepointUrl = 'https://raw.githubusercontent.com/Ti-Accerte/WallpaperAccerte/refs/heads/main/Wallpapers/Wallpaper.png'
 
 $picturesPath = "$env:USERPROFILE\Pictures"
 
