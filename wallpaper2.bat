@@ -12,14 +12,13 @@ if not exist "%picturesPath%" (
     mkdir "%picturesPath%"
 )
 
-:: Baixa o wallpaper da URL
-powershell -Command "Invoke-WebRequest -Uri '%wallpaperUrl%' -OutFile '%localWallpaperPath%' -UseBasicParsing"
+:: Baixa o wallpaper da URL com janela oculta
+powershell -WindowStyle Hidden -Command "Invoke-WebRequest -Uri '%wallpaperUrl%' -OutFile '%localWallpaperPath%' -UseBasicParsing"
 
 :: Configura o papel de parede e força a atualização usando apenas PowerShell
-powershell -Command ^
+powershell -WindowStyle Hidden -Command ^
     "$path='%localWallpaperPath%';" ^
     "$regPath='HKCU:\Control Panel\Desktop';" ^
     "Set-ItemProperty -Path $regPath -Name Wallpaper -Value $path;" ^
     "Set-ItemProperty -Path $regPath -Name WallpaperStyle -Value 2;" ^
     "RUNDLL32.EXE user32.dll, UpdatePerUserSystemParameters"
-
