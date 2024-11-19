@@ -1,18 +1,28 @@
-$sharepointUrl = 'https://raw.githubusercontent.com/Ti-Accerte/WallpaperAccerte/refs/heads/main/Wallpapers/Wallpaper.png'
+@echo off
 
-$picturesPath = "$env:USERPROFILE\Pictures"
+:: URL do wallpaper para download
+set "wallpaperUrl=https://raw.githubusercontent.com/Ti-Accerte/WallpaperAccerte/main/Wallpapers/Wallpaper.png"
 
-if (!(Test-Path -Path $picturesPath)) {
-    New-Item -Path $picturesPath -ItemType Directory
-}
+:: Caminho para salvar o wallpaper
+set "picturesPath=%USERPROFILE%\Pictures"
+set "localWallpaperPath=%picturesPath%\Wallpaper.jpg"
 
-$localWallpaperPath = "$picturesPath\Wallpaper.jpg"
+:: Verifica se a pasta Pictures existe; se não, cria
+if not exist "%picturesPath%" (
+    mkdir "%picturesPath%"
+)
 
-Invoke-WebRequest -Uri $sharepointUrl -OutFile $localWallpaperPath -UseBasicParsing
+:: Baixa o wallpaper da URL
+powershell -Command "Invoke-WebRequest -Uri '%wallpaperUrl%' -OutFile '%localWallpaperPath%' -UseBasicParsing"
 
-$registryPath = 'HKCU:\Control Panel\Desktop'
+:: Configura o papel de parede e força a atualização usando apenas PowerShell
+powershell -Command ^
+    "$path='%localWallpaperPath%';" ^
+    "$regPath='HKCU:\Control Panel\Desktop';" ^
+    "Set-ItemProperty -Path $regPath -Name Wallpaper -Value $path;" ^
+    "Set-ItemProperty -Path $regPath -Name WallpaperStyle -Value 2;" ^
+    "RUNDLL32.EXE user32.dll, UpdatePerUserSystemParameters"
 
-Set-ItemProperty -Path $registryPath -Name Wallpaper -Value $localWallpaperPath
-Set-ItemProperty -Path $registryPath -Name WallpaperStyle -Value "2" # 2 para esticado; "0" para centralizado, "6" para ajustar, "10" para preencher
-
-RUNDLL32.EXE user32.dll, UpdatePerUserSystemParameters, 1, True
+:: Mensagem de sucesso
+echo Papel de parede configurado com sucesso: %localWallpaperPath%
+pause
