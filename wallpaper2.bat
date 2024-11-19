@@ -23,6 +23,3 @@ powershell -Command ^
     "Set-ItemProperty -Path $regPath -Name WallpaperStyle -Value 2;" ^
     "RUNDLL32.EXE user32.dll, UpdatePerUserSystemParameters"
 
-:: Mensagem de sucesso
-echo Papel de parede configurado com sucesso: %localWallpaperPath%
-pause
